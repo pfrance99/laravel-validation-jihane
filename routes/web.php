@@ -11,6 +11,25 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+// Affiche toutes les vignettes
+Route::get('/', 'ThumbnailController@index');
+
+//Affiche les détails d'une vignette
+Route::get('/show/{thumbnailId}', 'ThumbnailController@show');
+
+Route::group(['prefix'=>'admin'], function(){
+    Route::get('/', 'AdminController@index');
+    Route::get('/vignettes/create', 'AdminController@create');
+    Route::get('/vignettes/{thumbnailId}', 'AdminController@show');
+    Route::get('/vignettes/{thumbnailId}/edit', 'AdminController@edit');
+
+    Route::post('/vignettes/create', 'ThumbnailController@create');
+    Route::put('/vignettes/{thumbnailId}/edit/', 'ThumbnailController@edit');
+    Route::delete('/vignettes/{thumbnailId}/delete', 'ThumbnailController@delete');
+
+
 });
+
+Auth::routes();
+Route::get('/logout', 'Auth\LoginController@logout');
